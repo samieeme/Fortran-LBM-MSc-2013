@@ -1,0 +1,30 @@
+
+SUBROUTINE INFLOW(N_HELP,NODE,LX,LY,UX)
+
+IMPLICIT NONE
+
+INTEGER  LX,LY
+REAL*8  RO,RU,UX,FEQ1,FEQ2,N_HELP(0:8,LX,LY),NODE(0:8,LX,LY)
+INTEGER  X,Y  !.....local variables
+
+X=1
+DO  Y=2,LY-1
+	
+	FEQ1=N_HELP(0,X,Y) + N_HELP(2,X,Y) + N_HELP(4,X,Y)
+	FEQ2=N_HELP(3,X,Y) + N_HELP(7,X,Y) + N_HELP(6,X,Y)
+	RO=( FEQ1 + 2.D0* FEQ2 ) / (1.D0-UX)
+	RU=RO*UX
+	N_HELP(1,X,Y)=N_HELP(3,X,Y)+(2./3.)*RU
+	N_HELP(5,X,Y)=N_HELP(7,X,Y)+(1./6.)*RU-(1./2.)*(N_HELP(2,X,Y)-N_HELP(4,X,Y))
+	N_HELP(8,X,Y)=N_HELP(6,X,Y)+(1./6.)*RU+(1./2.)*(N_HELP(2,X,Y)-N_HELP(4,X,Y))
+
+	!NODE(1,X,Y)=N_HELP(3,X,Y)+(2./3.)*RU
+	!NODE(5,X,Y)=N_HELP(7,X,Y)+(1./6.)*RU-(1./2.)*(N_HELP(2,X,Y)-N_HELP(4,X,Y))
+	!NODE(8,X,Y)=N_HELP(6,X,Y)+(1./6.)*RU+(1./2.)*(N_HELP(2,X,Y)-N_HELP(4,X,Y))
+
+
+END DO
+
+
+RETURN
+END

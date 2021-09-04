@@ -1,0 +1,31 @@
+
+SUBROUTINE SEPERATINGNODE(FLOWCOUNT,NODID,LX,LY)
+
+IMPLICIT NONE
+     
+INTEGER  LX,LY,FLOWCOUNT,I,J,NODID(LX,LY)   
+INTEGER  X,Y !.....local variables
+
+
+OPEN(20,file='FLOW.NOD')
+
+FLOWCOUNT=0;
+
+DO I=1,LX
+	DO J=1,LY
+	
+		IF (NODID(I,J).EQ.1) THEN  !.......check IF OBSTACLE inside DOmain boundaries
+			
+			FLOWCOUNT=FLOWCOUNT+1
+			WRITE(20,*) I,J
+			
+		END IF
+
+	END DO
+END DO
+
+CLOSE(20)
+
+
+RETURN
+END
